@@ -22,16 +22,18 @@ class CalDayGeneratorService {
 				for (int iterationCnt=0; iterationCnt < release.getNumIterations(); iterationCnt++) {
 					int itDay=1
 					for (int iterationDays=0; iterationDays < (release.getRelDurationDays())/2; iterationDays++ ) {
+						def day = new Day()
+						day.iterationNumber = iterationNumber
+						day.relCalDay = relCalDate
+						day.release = relName
+						day.releaseId = release.id
 						if ((relCalDate[Calendar.DAY_OF_WEEK] != Calendar.SATURDAY) &&
 							(relCalDate[Calendar.DAY_OF_WEEK] != Calendar.SUNDAY)) {
-								def day = new Day()
-								day.iterationDay = itDay++
-								day.iterationNumber = iterationNumber
-								day.relCalDay = relCalDate
-								day.release = relName
-								day.releaseId = release.id
-								day.save()
+							day.iterationDay = itDay++
+						} else {
+							day.iterationDay = itDay
 						}
+						day.save()
 						relCalDate = relCalDate + 1
 						relCnt++
 					}
