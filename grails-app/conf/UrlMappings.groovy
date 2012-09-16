@@ -9,8 +9,8 @@ class UrlMappings {
 		"/release/calendar/$releaseID"(controller: "relCalRest") {
 			action = [GET: "listRel" ]
 		}
-
-		"/release/calendar/day/$calDate?"(controller: "relCalRest") {
+		
+		"/release/calendar/$releaseID/$calDate?"(controller: "relCalRest") {
 			action = [GET: "listDay" ]
 		}
 

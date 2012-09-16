@@ -20,15 +20,16 @@ class RelCalRestController {
 	}
 	
 	def listRel = {
-		def Release release = Release.findByReleaseName(params.get("releaseID"))
+		def release = Release.findByReleaseName(params.releaseID)
 		render release.encodeAsJSON()
 	}
 	
 	def listDay = {
-		Date calendarDate = new SimpleDateFormat("yyyy-MM-dd").parse(params.calDate)
+		def release = Release.findByReleaseName(params.releaseID)
 		
-		//def Day day = datastore.find(Day.class, "relCalDay =", calendarDate).get()
-		def Day day = Day.findByRelCalDay(calendarDate)
+		Date calendarDate = new SimpleDateFormat("yyyy-MM-dd").parse(params.calDate)
+
+		def day = Day.findByRelCalDayAndReleaseId(calendarDate,release.id)
 		render day.encodeAsJSON()
 	}
 	
