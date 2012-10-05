@@ -30,7 +30,13 @@ class RelCalRestController {
 		Date calendarDate = new SimpleDateFormat("yyyy-MM-dd").parse(params.calDate)
 
 		def day = Day.findByRelCalDayAndReleaseId(calendarDate,release.id)
-		render day.encodeAsJSON()
+		// gotta support jsonp too!
+		if (params.callback) {
+			render params.callback + '(' + day.encodeAsJSON() + ')'
+		}
+		else {
+			render day.encodeAsJSON()
+		}
 	}
 	
 	def save = {
