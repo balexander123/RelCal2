@@ -5,11 +5,24 @@ package com.gap.shiro
  * via access control by convention.
  */
 class SecurityFilters {
+	
+	def publicActions = [
+		relCalRest: ['list', 'listDay', 'listRel', 'save']
+	];
+
+	private boolean findAction(actionMap, controllerName, actionName) {
+		def c = publicActions[controllerName]
+		return (c) ? c.find { (it == actionName || it == '*')} != null : false
+	}
+
     def filters = {
         all(uri: "/**") {
             before = {
                 // Ignore direct views (e.g. the default main index page).
                 if (!controllerName) return true
+				
+				if (findAction(publicActions,controllerName,actionName))
+					return true
 
                 // Access control by convention.
                 accessControl()
